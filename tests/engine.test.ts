@@ -322,6 +322,15 @@ describe('landing sites, twists and Mission Control tasks', () => {
     const firstCall = s.cards.found.includes('first_call') && !s.cards.sent.includes('first_call') ? C.SCIENCE_PER_CARD.milestone : 0;
     expect(s.science).toBe(cardScience + firstCall + done.reduce((a, x) => a + taskDef(x.id).reward, 0));
   });
+  it('the forecast task needs a forecast message, not just a known sol', () => {
+    const open = (s: GameState) => { s.tasks = [{ id: 'forecast', status: 'open', sol: null }]; s.known = [3, 4, 5]; };
+    const quiet = startPlanning(proceed(run(mk(3, open), plan())));
+    expect(quiet.tasks[0].status).toBe('open');
+    const asked = proceed(run(mk(3, open), plan({ radio: 1 })));
+    expect(asked.phase).toBe('radio');
+    const next = proceed(run(startPlanning(sendMessage(asked, 'forecast')), plan()));
+    expect(next.tasks[0].status).toBe('done');
+  });
   it('illegal phase transitions are rejected', () => {
     expect(() => go(createMission('x', 'easy'), 'radio')).toThrow();
   });

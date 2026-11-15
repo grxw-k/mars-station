@@ -24,7 +24,7 @@ function met(s: GameState, d: TaskDef): boolean {
     case 'samples': return s.counters.samples >= d.need;
     case 'cards': return s.cards.found.length >= d.need;
     case 'report': return s.cards.sent.length >= d.need;
-    case 'forecast': return s.known.length >= d.need || s.radio.queue.some((m) => m.id === 'forecast');
+    case 'forecast': return (s.counters.forecasts ?? 0) >= d.need;
     case 'airAbove': return s.counters.airLow >= d.need;
     case 'noMedbay': return s.counters.medbaySols === 0 && s.crew.every((p) => p.medbay <= 0);
     case 'greenBadges': return s.crew.every((p) => badgeOf(cfg(s), p.dose) === 'green');

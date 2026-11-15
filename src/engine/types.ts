@@ -146,7 +146,7 @@ export type GameState = {
   log: SolRecord[];
   seenWords: string[];
   flags: { panelsCovered: boolean; prefill: string | null };
-  counters: { airZero: number; foodZero: number; harvests: number; medbaySols: number; samples: number; airLow: number };
+  counters: { airZero: number; foodZero: number; harvests: number; medbaySols: number; samples: number; airLow: number; forecasts?: number };
   over: { won: boolean; why: 'ship' | 'air' | 'food' } | null;
 };
 

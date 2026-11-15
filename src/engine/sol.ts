@@ -508,6 +508,7 @@ export function sendMessage(state: GameState, messageId: RadioMessageId | null):
     if (messageId === 'science') {
       for (const id of s.cards.found.filter((x) => !s.cards.sent.includes(x))) { s.cards.sent.push(id); s.science += c.SCIENCE_PER_CARD[cardDef(id).kind]; }
     }
+    if (messageId === 'forecast') s.counters.forecasts = (s.counters.forecasts ?? 0) + 1;
     s.radio.queue.push({ id: messageId, sol: s.sol });
   }
   return endOrNext(s);
